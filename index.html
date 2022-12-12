@@ -8,27 +8,27 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         const root = document.getElementById("root");
-        function Btn({text, big}) {
-            
-            return <button style={{
+        function Btn({text, changeValue}) {
+            console.log(text, "was rendered");
+            return (<button 
+            onClick={changeValue}
+            style={{
                 backgroundColor: "tomato",
                 color: "white",
                 padding:"10px 20px",
                 border: 0,
                 borderRadius: 10,
-                fontSize: big ? 15 : 10
-            }}>{text}</button>
+                fontSize: 16
+            }}>{text}</button>)
         }
-        
+        const MemorizeBtn = React.memo(Btn);
         function App () {
-            const [index, setIndex] = React.useState("0");
-            const onSelect = (event) => {
-                setIndex(event.target.value);
-            }
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => setValue("Revert Changes");
             return (
                 <div>
-                    <Btn text="Save Changes" big={true} />
-                    <Btn text="Continue" big={false} />
+                    <MemorizeBtn text={value} changeValue={changeValue} />
+                    <MemorizeBtn text="Continue" />
                 </div>
             )
         }
